@@ -6,10 +6,38 @@ from import_export import resources, fields
 # from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from .models import Power
+from .models import Labinfo
+from .models import Labpower
 
-class PowerAdmin(admin.ModelAdmin):
+from .models import Labteacher
+from .models import Labstudent
+from .models import Labtest
+
+
+
+class LabinfoAdmin(admin.ModelAdmin):
 #     pass
 # admin.site.register(Power,PowerAdmin)
     list_display=['f01','f02','f03']
-admin.site.register(Power,PowerAdmin)
+admin.site.register(Labinfo,LabinfoAdmin)
+
+
+class LabpowerAdmin(admin.ModelAdmin):
+#     pass
+# admin.site.register(Power,PowerAdmin)
+    list_display=['f01','f02','f03']
+admin.site.register(Labpower,LabpowerAdmin)
+
+
+class LabteacherAdmin(admin.ModelAdmin):
+    list_display=['f01','f02','f03']
+admin.site.register(Labteacher,LabteacherAdmin)
+
+class LabstudentAdmin(admin.ModelAdmin):
+    list_display=['f01','f02','f03']
+admin.site.register(Labstudent,LabstudentAdmin)
+
+class LabtestAdmin(admin.ModelAdmin):
+    list_display=['f01','f02','f03']
+admin.site.register(Labtest,LabtestAdmin)
+
