@@ -26,6 +26,10 @@ class Labinfo(models.Model):
     f03 = models.TextField(default=".",verbose_name="CONTENT")
     def __str__(self):
         return self.f01+" "+self.f02;
+    class Meta:
+        verbose_name = "信息"
+        verbose_name_plural = "信息"
+
 
 # 学生实验信息
 class Labtest(models.Model):
@@ -47,7 +51,9 @@ class Labstudent(models.Model):
     f04 = models.CharField(default=".", max_length=99,verbose_name="邮箱")
     def __str__(self):
         return self.f01+" "+self.f02+" "+self.f03+" "+self.f04;
-        
+    class Meta:
+        verbose_name = "学生"
+        verbose_name_plural = "学生"
 # 老师      
 class Labteacher(models.Model):
     f01 = models.CharField(default=".", max_length=99,verbose_name="用户名")
@@ -56,7 +62,9 @@ class Labteacher(models.Model):
     f04 = models.CharField(default=".", max_length=99,verbose_name="邮箱")
     def __str__(self):
         return self.f01+" "+self.f02+" "+self.f03+" "+self.f04;
-        
+    class Meta:
+        verbose_name = "老师"
+        verbose_name_plural = "老师"
         
 '''        
 实验设备		
