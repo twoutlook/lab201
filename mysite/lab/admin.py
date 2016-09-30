@@ -12,31 +12,26 @@ from .models import Labpower
 from .models import Labteacher
 from .models import Labstudent
 from .models import Labtest
+from .models import PrjSpec
 
+
+class PrjSpecAdmin(admin.ModelAdmin):
+    list_display=['f00','f01']
+admin.site.register(PrjSpec,PrjSpecAdmin)
 
 
 class LabinfoAdmin(admin.ModelAdmin):
-#     pass
-# admin.site.register(Power,PowerAdmin)
     list_display=['f01','f02','f03']
-    class Meta:
-        verbose_name = "信息"
-        verbose_name_plural = "信息"
 admin.site.register(Labinfo,LabinfoAdmin)
 
 
 class LabpowerAdmin(admin.ModelAdmin):
-#     pass
-# admin.site.register(Power,PowerAdmin)
     list_display=['f01','f02','f03']
 admin.site.register(Labpower,LabpowerAdmin)
 
 
 class LabteacherAdmin(admin.ModelAdmin):
     list_display=['f01','f02','f03']
-    class Meta:
-        verbose_name = "老师"
-        verbose_name_plural = "老师"
 admin.site.register(Labteacher,LabteacherAdmin)
 
 class LabstudentAdmin(admin.ModelAdmin):

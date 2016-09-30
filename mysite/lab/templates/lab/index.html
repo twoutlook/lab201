@@ -1,0 +1,39 @@
+{% extends 'lab/base.html' %}
+{% block content %}                                            
+
+{% if item_list %}
+    <table>
+    
+    
+    <tr>
+    <th>編號</th>
+    <th>主題</th>
+    <th>說明</th>
+    
+    </tr>
+    
+    {% for item in item_list %}
+    <tr>
+    <td >{{ item.f00 }}</td>
+    <td class='alignleft'>{{ item.f01 }}</td>
+    <td class='alignleft'>{{ item.f02 }}</td>
+    
+    
+
+
+<!--#--- code2 for model.py (end) ------->
+</tr>
+    {% endfor %}
+
+    </table>
+{% else %}
+    <p>無資料顯示，需要權限並<mark><a target='_blank' href='../../admin/login/?next=/app001/'>登入</a></mark>才能查看。</p>
+   <p>維護資料人員，請由此<mark><a target='_blank' href='../../admin'>登入</a></mark>。</p>
+
+{% endif %}
+<!--<div class='template_name'>template: item008 | created by: Mark | latest update: 2016-08-26</div>-->
+{% endblock %}
+
+
+
+
