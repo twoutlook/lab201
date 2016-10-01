@@ -42,29 +42,55 @@ class Labtest(models.Model):
     def __str__(self):
         return self.f01+" "+self.f02;
         
-# 学生      
 
-class Labstudent(models.Model):
-    f01 = models.CharField(default=".", max_length=99,verbose_name="用户名")
-    f02 = models.CharField(default=".", max_length=99,verbose_name="密码")
-    f03 = models.CharField(default=".", max_length=99,verbose_name="姓名")
-    f04 = models.CharField(default=".", max_length=99,verbose_name="邮箱")
+'''
+学生只有一个指导老师，这个指导老师就是给他们上课的老师，
+然后每个实验室有专门的老师，也就是说，实验室的老师是和申请的实验关联，
+不同的实验，对应的实验室老师可能不一样，但是指导老师就是上课的老师就一个
+
+用户ID
+用户名
+密码
+姓名
+邮箱
+身份
+指导老师
+所属实验组
+
+
+
+'''
+
+class Student(models.Model):
+    userid = models.CharField( unique=True, max_length=16,verbose_name="用户名")
+    username = models.CharField(default=".", max_length=16,verbose_name="姓名")
+    password = models.CharField(default=".", max_length=16,verbose_name="密码")
+    mailbox = models.EmailField(max_length=99,verbose_name="邮箱")
+    teacher = models.ForeignKey(
+        'Teacher',
+        # on_delete=models.CASCADE,
+    )
+    
     def __str__(self):
-        return self.f01+" "+self.f02+" "+self.f03+" "+self.f04;
+        return self.username;
     class Meta:
         verbose_name = "学生"
         verbose_name_plural = "学生"
-# 老师      
-class Labteacher(models.Model):
-    f01 = models.CharField(default=".", max_length=99,verbose_name="用户名")
-    f02 = models.CharField(default=".", max_length=99,verbose_name="密码")
-    f03 = models.CharField(default=".", max_length=99,verbose_name="姓名")
-    f04 = models.CharField(default=".", max_length=99,verbose_name="邮箱")
+
+class Teacher(models.Model):
+    userid = models.CharField( unique=True, max_length=16,verbose_name="用户名")
+    username = models.CharField(default=".", max_length=16,verbose_name="姓名")
+    password = models.CharField(default=".", max_length=16,verbose_name="密码")
+    mailbox = models.EmailField(max_length=99,verbose_name="邮箱")
+  
+    
     def __str__(self):
-        return self.f01+" "+self.f02+" "+self.f03+" "+self.f04;
+        return self.username;
     class Meta:
         verbose_name = "老师"
         verbose_name_plural = "老师"
+
+
 
 class PrjSpec(models.Model):
     f00 = models.CharField(default=".", max_length=99,verbose_name="編號")

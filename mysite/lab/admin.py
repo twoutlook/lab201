@@ -9,8 +9,8 @@ from import_export import resources, fields
 from .models import Labinfo
 from .models import Labpower
 
-from .models import Labteacher
-from .models import Labstudent
+from .models import Teacher
+from .models import Student
 from .models import Labtest
 from .models import PrjSpec
 
@@ -30,13 +30,13 @@ class LabpowerAdmin(admin.ModelAdmin):
 admin.site.register(Labpower,LabpowerAdmin)
 
 
-class LabteacherAdmin(admin.ModelAdmin):
-    list_display=['f01','f02','f03']
-admin.site.register(Labteacher,LabteacherAdmin)
+class TeacherAdmin(admin.ModelAdmin):
+    list_display=['userid','username']
+admin.site.register(Teacher,TeacherAdmin)
 
-class LabstudentAdmin(admin.ModelAdmin):
-    list_display=['f01','f02','f03']
-admin.site.register(Labstudent,LabstudentAdmin)
+class StudentAdmin(admin.ModelAdmin):
+    list_display=['userid','username','teacher']
+admin.site.register(Student,StudentAdmin)
 
 class LabtestAdmin(admin.ModelAdmin):
     list_display=['f01','f02','f03']
