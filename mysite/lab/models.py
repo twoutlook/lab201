@@ -185,20 +185,27 @@ class Request(models.Model):
 用户名	文本	
 分数	数字	
 '''
-# class Action(models.Model):
-#     # expid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
-#     request = models.ForeignKey('Request',verbose_name="实验申请信息")
-#     student = models.ForeignKey('Student',verbose_name="用户名")
-    
-#     # http://stackoverflow.com/questions/16527308/how-to-set-null-for-integerfield-instead-of-setting-0
-#     # score = models.IntegerField( verbose_name="分数")
-#     # team = models.ForeignKey('Team',verbose_name="组别")
+class Action(models.Model):
+    # expid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
+    request = models.ForeignKey('Request',verbose_name="实验申请信息")
+    student = models.ForeignKey('Student',verbose_name="用户名")
+    CHOICE_STATUS = (
+        ('未审核','未审核'),
+        ('已审核','已审核'),
+    )
+    # byteacherent = models.ForeignKey('Student',verbose_name="用户名")
+    apvd1 = models.CharField(default="未审核",max_length=99,verbose_name="审核1", choices=CHOICE_STATUS)
+    apvd2 = models.CharField(default="未审核",max_length=99,verbose_name="审核2", choices=CHOICE_STATUS)
+   
+    # http://stackoverflow.com/questions/16527308/how-to-set-null-for-integerfield-instead-of-setting-0
+    score = models.IntegerField(default=-1, verbose_name="分数")
+    # team = models.ForeignKey('Team',verbose_name="组别")
         
-#     def __str__(self):
-#         return str(self.id);
-#     class Meta:
-#         verbose_name = "学生实验课程"
-#         verbose_name_plural = "学生实验课程"
+    def __str__(self):
+        return str(self.id);
+    class Meta:
+        verbose_name = "学生实验课程"
+        verbose_name_plural = "学生实验课程"
 
 
 

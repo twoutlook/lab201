@@ -15,7 +15,7 @@ from .models import Team
 from .models import Equipment
 from .models import Experiment
 from .models import Request
-# from .models import Action
+from .models import Action
 
 
 
@@ -67,11 +67,11 @@ class RequestAdmin(admin.ModelAdmin):
 admin.site.register(Request,RequestAdmin)
 
 
-# class ActionAdmin(admin.ModelAdmin):
-#     # list_display=['id','request','student','score']
-#     list_display=['id','request','student']
+class ActionAdmin(admin.ModelAdmin):
+    list_display=['id','request','student','apvd1','apvd2','score']
+    # list_display=['id','request','student']
     
-# admin.site.register(Action,ActionAdmin)
+admin.site.register(Action,ActionAdmin)
 
 
 # class LabtestAdmin(admin.ModelAdmin):
