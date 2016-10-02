@@ -67,6 +67,7 @@ class Labtest(models.Model):
 
 class Student(models.Model):
     userid = models.CharField( unique=True, max_length=16,verbose_name="用户名")
+    studentid = models.CharField(default=".", max_length=16,verbose_name="学号")
     username = models.CharField(default=".", max_length=16,verbose_name="姓名")
     password = models.CharField(default=".", max_length=16,verbose_name="密码")
     mailbox = models.EmailField(unique=True,max_length=99,verbose_name="邮箱")
@@ -95,20 +96,110 @@ class Teacher(models.Model):
     class Meta:
         verbose_name = "老师"
         verbose_name_plural = "老师"
-
-
-# class Equipment(models.Model):
-#     equipid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
-#     equipname = models.CharField(default=".", max_length=16,verbose_name="姓名")
-#     password = models.CharField(default=".", max_length=16,verbose_name="密码")
-#     mailbox = models.EmailField(unique=True,max_length=99,verbose_name="邮箱")
+'''
+实验设备		
+字段名称	数据类型	值
+设备ID	数字	
+设备名称	文本	
+变量地址	文本	
+'''
+class Equipment(models.Model):
+    equipid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
+    equipname = models.CharField(unique=True,default=".", max_length=96,verbose_name="设备名称")
+    equipnote = models.CharField(default=".", max_length=96,verbose_name="变量地址")
   
     
+    def __str__(self):
+        return self.equipname;
+    class Meta:
+        verbose_name = "实验设备"
+        verbose_name_plural = "实验设备"
+'''
+实验项目		
+字段名称	数据类型	值
+实验名称	文本	
+实验内容	文本	
+设备ID	数字	
+experiment
+'''
+class Experiment(models.Model):
+    # expid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
+    expname = models.CharField(default=".", max_length=96,verbose_name="实验名称")
+    expnote = models.CharField(default=".", max_length=96,verbose_name="实验内容")
+    equipment = models.ForeignKey('Equipment',verbose_name="设备名称")
+   
+    
+    def __str__(self):
+        return self.expname;
+    class Meta:
+        verbose_name = "实验项目"
+        verbose_name_plural = "实验项目"
+
+'''
+实验申请信息		
+字段名称	数据类型	值
+实验申请ID	数字	（按顺序递加）
+用户名	文本	
+实验项目ID	数字	
+申请状态	文本	申请、审核、实施，完成
+申请时间	时间	
+实验開始时间	时间	
+实验結束时间	时间	
+所属实验组	文本	“学生”的申请，此项无效
+备注		
+'''
+class Request(models.Model):
+    # expid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
+    teacher = models.ForeignKey('Teacher',verbose_name="用户")
+    experiment = models.ForeignKey('Experiment',verbose_name="实验项目")
+    
+    # team = models.IntegerField(default=1,verbose_name="组别")
+    team = models.ForeignKey('Team',verbose_name="组别")
+    
+    rqsttime = models.DateField(auto_now_add=True,verbose_name="申请时间")
+    starttime = models.DateTimeField(null=True,verbose_name="start时间")
+    endtime = models.DateTimeField(null=True,verbose_name="end时间")
+    
+    # expnote = models.CharField(default=".", max_length=96,verbose_name="实验内容")
+    # equipment = models.ForeignKey('Equipment',verbose_name="设备名称")
+    CHOICE_STATUS = (
+        ('申请','申请'),
+        ('审核','审核'),
+        ('实施','实施'),
+        ('完成','完成'),
+    )
+       
+    status = models.CharField(default="申请",max_length=99,verbose_name="申请状态", choices=CHOICE_STATUS)
+    
+    
+    def __str__(self):
+        return str(self.id);
+    class Meta:
+        verbose_name = "实验申请信息"
+        verbose_name_plural = "实验申请信息"
+
+'''
+学生实验课程		
+字段名称	数据类型	值
+实验申请ID	数字	
+用户名	文本	
+分数	数字	
+'''
+# class Action(models.Model):
+#     # expid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
+#     request = models.ForeignKey('Request',verbose_name="实验申请信息")
+#     student = models.ForeignKey('Student',verbose_name="用户名")
+    
+#     # http://stackoverflow.com/questions/16527308/how-to-set-null-for-integerfield-instead-of-setting-0
+#     # score = models.IntegerField( verbose_name="分数")
+#     # team = models.ForeignKey('Team',verbose_name="组别")
+        
 #     def __str__(self):
-#         return self.username;
+#         return str(self.id);
 #     class Meta:
-#         verbose_name = "老师"
-#         verbose_name_plural = "老师"
+#         verbose_name = "学生实验课程"
+#         verbose_name_plural = "学生实验课程"
+
 
 
 # class Group(models.Model):

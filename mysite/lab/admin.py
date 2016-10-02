@@ -12,6 +12,11 @@ from .models import Labpower
 from .models import Teacher
 from .models import Student
 from .models import Team
+from .models import Equipment
+from .models import Experiment
+from .models import Request
+# from .models import Action
+
 
 
 from .models import Labtest
@@ -34,25 +39,39 @@ admin.site.register(Info,InfoAdmin)
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    list_display=['userid','password','username','mailbox']
+    list_display=['id','userid','password','username','mailbox']
 admin.site.register(Teacher,TeacherAdmin)
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display=['userid','password','username','mailbox','teacher','team']
+    list_display=['id','userid','studentid','password','username','mailbox','teacher','team']
     # list_display=['userid','username','mailbox','teacher']
     
 admin.site.register(Student,StudentAdmin)
 
-# class GroupAdmin(admin.ModelAdmin):
-#     list_display=['groupid','groupname']
-# admin.site.register(Group,GroupAdmin)
+
 
 class TeamAdmin(admin.ModelAdmin):
-    list_display=['teamid','teamname']
+    list_display=['id','teamid','teamname']
 admin.site.register(Team,TeamAdmin)
 
+class EquipmentAdmin(admin.ModelAdmin):
+    list_display=['id','equipid','equipname','equipnote']
+admin.site.register(Equipment,EquipmentAdmin)
+
+class ExperimentAdmin(admin.ModelAdmin):
+    list_display=['id','expname','expnote','equipment']
+admin.site.register(Experiment,ExperimentAdmin)
+
+class RequestAdmin(admin.ModelAdmin):
+    list_display=['id','teacher','experiment','team','rqsttime','starttime','endtime','status']
+admin.site.register(Request,RequestAdmin)
 
 
+# class ActionAdmin(admin.ModelAdmin):
+#     # list_display=['id','request','student','score']
+#     list_display=['id','request','student']
+    
+# admin.site.register(Action,ActionAdmin)
 
 
 # class LabtestAdmin(admin.ModelAdmin):
