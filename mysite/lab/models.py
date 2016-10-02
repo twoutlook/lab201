@@ -20,12 +20,16 @@ class Labpower(models.Model):
     def __str__(self):
         return str(self.f01)+" "+self.f02+" "+str(self.f01)+" ";
      
-class Labinfo(models.Model):
-    f01 = models.CharField(default=".", max_length=99,verbose_name="TITLE")
-    f02 = models.CharField(default=".", max_length=99,verbose_name="INFOTYPE")
-    f03 = models.TextField(default=".",verbose_name="CONTENT")
+     
+
+
+
+class Info(models.Model):
+    f01 = models.CharField(default=".", max_length=99,verbose_name="标题")
+    f02 = models.DateTimeField(verbose_name="时间")
+    f03 = models.TextField(default=".",verbose_name="内容")
     def __str__(self):
-        return self.f01+" "+self.f02;
+        return self.f01;
     class Meta:
         verbose_name = "信息"
         verbose_name_plural = "信息"
@@ -65,12 +69,14 @@ class Student(models.Model):
     userid = models.CharField( unique=True, max_length=16,verbose_name="用户名")
     username = models.CharField(default=".", max_length=16,verbose_name="姓名")
     password = models.CharField(default=".", max_length=16,verbose_name="密码")
-    mailbox = models.EmailField(max_length=99,verbose_name="邮箱")
-    teacher = models.ForeignKey(
-        'Teacher',
-        # on_delete=models.CASCADE,
-    )
+    mailbox = models.EmailField(unique=True,max_length=99,verbose_name="邮箱")
+    teacher = models.ForeignKey('Teacher',verbose_name="老師")
+    # group = models.ForeignKey('Group',verbose_name="組別")
+    # team = models.CharField(default=".", max_length=16,verbose_name="組別")
+    # team = models.IntegerField(default=1,verbose_name="組別")
+    team = models.ForeignKey('Team',verbose_name="組別")
     
+    # groupname = models.CharField(default=".", max_length=16,verbose_name="組別")
     def __str__(self):
         return self.username;
     class Meta:
@@ -81,7 +87,7 @@ class Teacher(models.Model):
     userid = models.CharField( unique=True, max_length=16,verbose_name="用户名")
     username = models.CharField(default=".", max_length=16,verbose_name="姓名")
     password = models.CharField(default=".", max_length=16,verbose_name="密码")
-    mailbox = models.EmailField(max_length=99,verbose_name="邮箱")
+    mailbox = models.EmailField(unique=True,max_length=99,verbose_name="邮箱")
   
     
     def __str__(self):
@@ -90,6 +96,40 @@ class Teacher(models.Model):
         verbose_name = "老师"
         verbose_name_plural = "老师"
 
+
+# class Equipment(models.Model):
+#     equipid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
+#     equipname = models.CharField(default=".", max_length=16,verbose_name="姓名")
+#     password = models.CharField(default=".", max_length=16,verbose_name="密码")
+#     mailbox = models.EmailField(unique=True,max_length=99,verbose_name="邮箱")
+  
+    
+#     def __str__(self):
+#         return self.username;
+#     class Meta:
+#         verbose_name = "老师"
+#         verbose_name_plural = "老师"
+
+
+# class Group(models.Model):
+#     groupid = models.CharField(unique=True, default=".", max_length=16,verbose_name="組別編號")
+#     groupname = models.CharField(unique=True,default=".", max_length=16,verbose_name="組別名稱")
+    
+#     def __str__(self):
+#         return self.groupname;
+#     class Meta:
+#         verbose_name = "組別"
+#         verbose_name_plural = "組別"
+        
+class Team(models.Model):
+    teamid = models.IntegerField(unique=True, default=1,verbose_name="組別編號")
+    teamname = models.CharField(unique=True,default=".", max_length=16,verbose_name="組別名稱")
+    
+    def __str__(self):
+        return self.teamname;
+    class Meta:
+        verbose_name = "組別"
+        verbose_name_plural = "組別"
 
 
 class PrjSpec(models.Model):
