@@ -169,14 +169,49 @@ class Request(models.Model):
         ('完成','完成'),
     )
        
-    status = models.CharField(default="申请",max_length=99,verbose_name="申请状态", choices=CHOICE_STATUS)
-    
+    status = models.CharField(default="申请",max_length=16,verbose_name="申请状态", choices=CHOICE_STATUS)
+    remarks = models.CharField(default=".", max_length=250,verbose_name="备注")
     
     def __str__(self):
         return str(self.id);
     class Meta:
-        verbose_name = "实验申请信息"
-        verbose_name_plural = "实验申请信息"
+        verbose_name = "实验申请信息(老师)"
+        verbose_name_plural = "实验申请信息(老师)"
+
+class Request2(models.Model):
+    # expid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
+    student = models.ForeignKey('Student',verbose_name="用户")
+    experiment = models.ForeignKey('Experiment',verbose_name="实验项目")
+    
+    # team = models.IntegerField(default=1,verbose_name="组别")
+    # team = models.ForeignKey('Team',verbose_name="组别")
+    
+    rqsttime = models.DateField(auto_now_add=True,verbose_name="申请时间")
+    starttime = models.DateTimeField(null=True,verbose_name="start时间")
+    endtime = models.DateTimeField(null=True,verbose_name="end时间")
+    
+    # expnote = models.CharField(default=".", max_length=96,verbose_name="实验内容")
+    # equipment = models.ForeignKey('Equipment',verbose_name="设备名称")
+    # 核准
+    # 恩，可以，就是审批状态里面“指导老师核可”改成“核准”
+    CHOICE_STATUS = (
+        ('申请','申请'),
+        # ('指导老师核可','指导老师核可'),
+        ('核准','核准'),
+        
+        ('审核','审核'),
+        ('实施','实施'),
+        ('完成','完成'),
+    )
+       
+    status = models.CharField(default="申请",max_length=16,verbose_name="申请状态", choices=CHOICE_STATUS)
+    remarks = models.CharField(default=".", max_length=250,verbose_name="备注")
+    
+    def __str__(self):
+        return str(self.id);
+    class Meta:
+        verbose_name = "实验申请信息(学生)"
+        verbose_name_plural = "实验申请信息(学生)"
 
 '''
 学生实验课程		
@@ -187,15 +222,20 @@ class Request(models.Model):
 '''
 class Action(models.Model):
     # expid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
-    request = models.ForeignKey('Request',verbose_name="实验申请信息")
-    student = models.ForeignKey('Student',verbose_name="用户名")
-    CHOICE_STATUS = (
-        ('未审核','未审核'),
-        ('已审核','已审核'),
+    CHOICE_BY = (
+        ('老师','老师'),
+        ('学生','学生'),
     )
-    # byteacherent = models.ForeignKey('Student',verbose_name="用户名")
-    apvd1 = models.CharField(default="未审核",max_length=99,verbose_name="审核1", choices=CHOICE_STATUS)
-    apvd2 = models.CharField(default="未审核",max_length=99,verbose_name="审核2", choices=CHOICE_STATUS)
+    requestby = models.CharField(default="老师",max_length=16,verbose_name="申请類型", choices=CHOICE_BY)
+    request = models.ForeignKey('Request',verbose_name="实验申请信息")
+    student = models.ForeignKey('Student',verbose_name="学生")
+    # CHOICE_STATUS = (
+    #     ('未审核','未审核'),
+    #     ('已审核','已审核'),
+    # )
+    # # byteacherent = models.ForeignKey('Student',verbose_name="用户名")
+    # apvd1 = models.CharField(default="未审核",max_length=99,verbose_name="审核1", choices=CHOICE_STATUS)
+    # apvd2 = models.CharField(default="未审核",max_length=99,verbose_name="审核2", choices=CHOICE_STATUS)
    
     # http://stackoverflow.com/questions/16527308/how-to-set-null-for-integerfield-instead-of-setting-0
     score = models.IntegerField(default=-1, verbose_name="分数")
@@ -277,8 +317,71 @@ ID	数字
 字段名称	数据类型	值
 ID	数字	（按顺序递加）
 硬件序列号	文本	
+	
+	
+	
+	
+授权设备		
+字段名称	数据类型	值
+ID	数字	（按顺序递加）
+硬件序列号	文本	
 		
 '''
+class AuthDevice(models.Model):
+    # H/W Note
+    hwnote = models.CharField(unique=True,default=".", max_length=99,verbose_name="硬件序列号")
+    
+    def __str__(self):
+        return self.hwnote;
+    class Meta:
+        verbose_name = "授权设备"
+        verbose_name_plural = "授权设备"
+        # app_label = 'myapp'
 		
-		
+class CurrentDevice(models.Model):
+    # H/W Note
+    hwnote = models.CharField(unique=True,default=".", max_length=99,verbose_name="硬件序列号")
+    
+    def __str__(self):
+        return self.hwnote;
+    class Meta:
+        verbose_name = "当前设备"
+        verbose_name_plural = "当前设备"
+        # app_label = 'myapp'
+'''	
+板卡信息		
+字段名称	数据类型	值
+ID	数字	
+类型	文本	DI/DO
+变量地址	文本	
+变量值	数字	0/1
+通讯状态	数字	0/1
+设备ID	数字
+'''	
+class Board(models.Model):
+    # expid = models.CharField( unique=True, max_length=16,verbose_name="设备ID")
+    # expname = models.CharField(default=".", max_length=96,verbose_name="实验名称")
+    # expnote = models.CharField(default=".", max_length=96,verbose_name="实验内容")
+    # 板卡名称
+    boardname = models.CharField(default=".", max_length=96,verbose_name="板卡名称")
+    CHOICE_DIDO = (
+        ('DI','DI'),
+        ('DO','DO'),
+    )
+    dido = models.CharField(default="DI",max_length=16,verbose_name="类型", choices=CHOICE_DIDO)
+    addr = models.CharField(default=".", max_length=96,verbose_name="变量地址")
+  
+    CHOICE_01 = (
+        (0,0),
+        (1,1),
+    )
+    var1 = models.IntegerField(default=0, verbose_name="变量值", choices=CHOICE_01)
+    var2 = models.IntegerField(default=0, verbose_name="通讯状态", choices=CHOICE_01)
+    equipment = models.ForeignKey('Equipment',verbose_name="设备名称")
+    
+    def __str__(self):
+        return str(self.id);
+    class Meta:
+        verbose_name = "板卡信息"
+        verbose_name_plural = "板卡信息"
 

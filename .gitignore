@@ -1,4 +1,6 @@
+*.exe
 *.zip
+
 myvenv/
 myvenv/
 temp/

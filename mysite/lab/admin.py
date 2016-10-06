@@ -15,7 +15,13 @@ from .models import Team
 from .models import Equipment
 from .models import Experiment
 from .models import Request
+from .models import Request2
+
 from .models import Action
+from .models import AuthDevice
+from .models import CurrentDevice
+from .models import Board
+
 
 
 
@@ -63,15 +69,34 @@ class ExperimentAdmin(admin.ModelAdmin):
 admin.site.register(Experiment,ExperimentAdmin)
 
 class RequestAdmin(admin.ModelAdmin):
-    list_display=['id','teacher','experiment','team','rqsttime','starttime','endtime','status']
+    list_display=['id','teacher','experiment','team','rqsttime','starttime','endtime','status','remarks']
 admin.site.register(Request,RequestAdmin)
 
+class Request2Admin(admin.ModelAdmin):
+    list_display=['id','student','experiment','rqsttime','starttime','endtime','status','remarks']
+admin.site.register(Request2,Request2Admin)
 
 class ActionAdmin(admin.ModelAdmin):
-    list_display=['id','request','student','apvd1','apvd2','score']
+    # list_display=['id','request','student','apvd1','apvd2','score']
+    list_display=['id','requestby','request','student','score']
+    
     # list_display=['id','request','student']
     
 admin.site.register(Action,ActionAdmin)
+
+
+class AuthDeviceAdmin(admin.ModelAdmin):
+    list_display=['id','hwnote']
+admin.site.register(AuthDevice,AuthDeviceAdmin)
+
+class CurrentDeviceAdmin(admin.ModelAdmin):
+    list_display=['id','hwnote']
+admin.site.register(CurrentDevice,CurrentDeviceAdmin)
+
+class BoardAdmin(admin.ModelAdmin):
+    list_display=['id','boardname','dido','addr','var1','var2','equipment']
+admin.site.register(Board,BoardAdmin)
+
 
 
 # class LabtestAdmin(admin.ModelAdmin):

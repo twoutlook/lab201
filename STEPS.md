@@ -22,10 +22,13 @@
 # Open a new terminal
     source myvenv/bin/activate
     cd mysite
+    
     ./manage.py migrate
     
     ./manage.py createsuperuser
     ubuntu / Kunshan at 2016
+    
+    
     
 # Migrage db
     ./manage.py makemigrations
